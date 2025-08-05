@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Complexity Scoring Matrix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .legend {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .complexity-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+        .complexity-grid th, .complexity-grid td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .complexity-grid th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .subsystem-header {
+            background-color: #e9ecef !important;
+            font-weight: bold;
+            text-align: left !important;
+            padding-left: 15px !important;
+        }
+        .category-header {
+            background-color: #6c757d !important;
+            color: white !important;
+            font-weight: bold;
+            text-align: left !important;
+            padding-left: 10px !important;
+        }
+        .subsystem-row {
+            background-color: #fff;
+        }
+        .subsystem-name {
+            text-align: left !important;
+            padding-left: 25px !important;
+            font-weight: normal;
+        }
+        .complexity-cell {
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 60px;
+        }
+        .complexity-cell:hover {
+            background-color: #e3f2fd;
+        }
+        .complexity-0 { background-color: #f8f9fa; }
+        .complexity-1 { background-color: #d4edda; }
+        .complexity-2 { background-color: #fff3cd; }
+        .complexity-3 { background-color: #f8d7da; }
+        .complexity-4 { background-color: #d1ecf1; }
+        
+        .selected {
+            border: 3px solid #007bff;
+            font-weight: bold;
+        }
+        
+        .score-summary {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .total-score {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1976d2;
+            border-top: 2px solid #1976d2;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        .reset-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .reset-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mobile Machinery ECU Project Complexity Scoring Matrix</h1>
+        
+        <div class="legend">
+            <h3>Complexity Scale</h3>
+            <strong>0 - Not Applicable:</strong> Subsystem not required for this project<br>
+            <strong>1 - Available:</strong> Via BIOS or 3rd party, no change necessary<br>
+            <strong>2 - Refactoring:</strong> Available but requires refactoring or porting<br>
+            <strong>3 - External Dev:</strong> New development required via sub-contract<br>
+            <strong>4 - In-house Dev:</strong> New development required in-house<br><br>
+            <em>Click cells to select complexity level for each subsystem</em>
+        </div>
+
+        <table class="complexity-grid">
+            <thead>
+                <tr>
+                    <th style="width: 300px;">Subsystem</th>
+                    <th>0<br>N/A</th>
+                    <th>1<br>Available</th>
+                    <th>2<br>Refactor</th>
+                    <th>3<br>External</th>
+                    <th>4<br>In-house</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Core System Infrastructure -->
+                <tr class="category-header">
+                    <td colspan="6">CORE SYSTEM INFRASTRUCTURE</td>
+                </tr>
+                <tr class="subsystem-header">
+                    <td colspan="6">Communication & Networking</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="can-bus">
+                    <td class="subsystem-name">CAN Bus Management</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="j1939">
+                    <td class="subsystem-name">J1939 Protocol Stack</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="ethernet">
+                    <td class="subsystem-name">Ethernet</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="proprietary">
+                    <td class="subsystem-name">Proprietary Protocols</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                
+                <tr class="subsystem-header">
+                    <td colspan="6">System Management</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="nv-memory">
+                    <td class="subsystem-name">Non-Volatile Memory Management</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="power-mgmt">
+                    <td class="subsystem-name">Power Management</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="bootloader">
+                    <td class="subsystem-name">Bootloader & Software Update</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+
+                <!-- Operational Subsystems -->
+                <tr class="category-header">
+                    <td colspan="6">OPERATIONAL SUBSYSTEMS</td>
+                </tr>
+                <tr class="subsystem-header">
+                    <td colspan="6">Safety & Monitoring</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="error-detection">
+                    <td class="subsystem-name">Error Detection and Handling</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="fail-safe">
+                    <td class="subsystem-name">Fail to Safe State Logic</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="io-redundancy">
+                    <td class="subsystem-name">IO Redundancy Checks & Validation</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="diagnostics">
+                    <td class="subsystem-name">Diagnostics (UDS, OBDII, etc.)</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="alarms">
+                    <td class="subsystem-name">Alarms & Monitoring</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+
+                <tr class="subsystem-header">
+                    <td colspan="6">Data Management</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="data-logging">
+                    <td class="subsystem-name">Data Logging</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="calibration">
+                    <td class="subsystem-name">Calibration & Commissioning</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+
+                <!-- Manual Operation Systems -->
+                <tr class="category-header">
+                    <td colspan="6">MANUAL OPERATION SYSTEMS</td>
+                </tr>
+                <tr class="subsystem-header">
+                    <td colspan="6">Operator Interface & Controls</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="hmi">
+                    <td class="subsystem-name">HMI Systems</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="physical-controls">
+                    <td class="subsystem-name">Physical Controls Integration</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+
+                <tr class="subsystem-header">
+                    <td colspan="6">Vehicle Control</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="engine-control">
+                    <td class="subsystem-name">Engine Control</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="transmission">
+                    <td class="subsystem-name">Transmission Control</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="hydraulic">
+                    <td class="subsystem-name">Hydraulic System Control</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+
+                <tr class="subsystem-header">
+                    <td colspan="6">Equipment Control</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="implement">
+                    <td class="subsystem-name">Implement/Attachment Control</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="auxiliary">
+                    <td class="subsystem-name">Auxiliary System Operation</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+
+                <!-- Advanced Systems -->
+                <tr class="category-header">
+                    <td colspan="6">ADVANCED SYSTEMS</td>
+                </tr>
+                <tr class="subsystem-header">
+                    <td colspan="6">Connectivity</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="device-comm">
+                    <td class="subsystem-name">Device to Device Communication</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="cloud">
+                    <td class="subsystem-name">Cloud Connectivity</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="remote-diag">
+                    <td class="subsystem-name">Remote Diagnostics</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+
+                <tr class="subsystem-header">
+                    <td colspan="6">Automation & Guidance</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="navigation">
+                    <td class="subsystem-name">Navigation & Positioning</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="auto-steering">
+                    <td class="subsystem-name">Auto-steering & Path Following</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="precision-control">
+                    <td class="subsystem-name">Precision Application Control</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="obstacle-detection">
+                    <td class="subsystem-name">Obstacle Detection & Collision Avoidance</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+                <tr class="subsystem-row" data-subsystem="ml-adaptive">
+                    <td class="subsystem-name">Machine Learning & Adaptive Control</td>
+                    <td class="complexity-cell complexity-0" data-score="0">0</td>
+                    <td class="complexity-cell complexity-1" data-score="1">1</td>
+                    <td class="complexity-cell complexity-2" data-score="2">2</td>
+                    <td class="complexity-cell complexity-3" data-score="3">3</td>
+                    <td class="complexity-cell complexity-4" data-score="4">4</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="score-summary">
+            <h3>Project Complexity Summary</h3>
+            <div class="score-row">
+                <span>Not Applicable (0):</span>
+                <span id="score-0">0 subsystems</span>
+            </div>
+            <div class="score-row">
+                <span>Available (1):</span>
+                <span id="score-1">0 subsystems</span>
+            </div>
+            <div class="score-row">
+                <span>Refactoring Required (2):</span>
+                <span id="score-2">0 subsystems</span>
+            </div>
+            <div class="score-row">
+                <span>External Development (3):</span>
+                <span id="score-3">0 subsystems</span>
+            </div>
+            <div class="score-row">
+                <span>In-house Development (4):</span>
+                <span id="score-4">0 subsystems</span>
+            </div>
+            <div class="score-row total-score">
+                <span>Total Complexity Score:</span>
+                <span id="total-score">0</span>
+            </div>
+            <button class="reset-btn" onclick="resetMatrix()">Reset All Selections</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedScores = {};
+
+        function updateScores() {
+            const scoreCounts = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0};
+            let totalScore = 0;
+
+            Object.values(selectedScores).forEach(score => {
+                scoreCounts[score]++;
+                totalScore += score;
+            });
+
+            for (let i = 0; i <= 4; i++) {
+                document.getElementById(`score-${i}`).textContent = `${scoreCounts[i]} subsystems`;
+            }
+            
+            document.getElementById('total-score').textContent = totalScore;
+        }
+
+        function resetMatrix() {
+            selectedScores = {};
+            document.querySelectorAll('.complexity-cell').forEach(cell => {
+                cell.classList.remove('selected');
+            });
+            updateScores();
+        }
+
+        document.querySelectorAll('.complexity-cell').forEach(cell => {
+            cell.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const subsystem = row.dataset.subsystem;
+                const score = parseInt(this.dataset.score);
+
+                // Remove previous selection for this subsystem
+                row.querySelectorAll('.complexity-cell').forEach(c => c.classList.remove('selected'));
+                
+                // Add selection to clicked cell
+                this.classList.add('selected');
+                
+                // Update score tracking
+                selectedScores[subsystem] = score;
+                
+                // Update summary
+                updateScores();
+            });
+        });
+
+        // Initialize
+        updateScores();
+    </script>
+</body>
+</html>
