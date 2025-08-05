@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,19 +11,22 @@
             margin: 20px;
             background-color: #f5f5f5;
         }
+
         .container {
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             max-width: 1400px;
             margin: 0 auto;
         }
+
         h1 {
             text-align: center;
             color: #333;
             margin-bottom: 30px;
         }
+
         .legend {
             background: #f8f9fa;
             padding: 15px;
@@ -30,32 +34,39 @@
             margin-bottom: 20px;
             border-left: 4px solid #007bff;
         }
+
         .legend h3 {
             margin-top: 0;
             color: #007bff;
         }
+
         .complexity-grid {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
             font-size: 12px;
         }
-        .complexity-grid th, .complexity-grid td {
+
+        .complexity-grid th,
+        .complexity-grid td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: center;
             vertical-align: middle;
         }
+
         .complexity-grid th {
             background-color: #f8f9fa;
             font-weight: bold;
         }
+
         .subsystem-header {
             background-color: #e9ecef !important;
             font-weight: bold;
             text-align: left !important;
             padding-left: 15px !important;
         }
+
         .category-header {
             background-color: #6c757d !important;
             color: white !important;
@@ -63,44 +74,65 @@
             text-align: left !important;
             padding-left: 10px !important;
         }
+
         .subsystem-row {
             background-color: #fff;
         }
+
         .subsystem-name {
             text-align: left !important;
             padding-left: 25px !important;
             font-weight: normal;
         }
+
         .complexity-cell {
             cursor: pointer;
             transition: background-color 0.2s;
             width: 60px;
         }
+
         .complexity-cell:hover {
             background-color: #e3f2fd;
         }
-        .complexity-0 { background-color: #f8f9fa; }
-        .complexity-1 { background-color: #d4edda; }
-        .complexity-2 { background-color: #fff3cd; }
-        .complexity-3 { background-color: #f8d7da; }
-        .complexity-4 { background-color: #d1ecf1; }
-        
+
+        .complexity-0 {
+            background-color: #f8f9fa;
+        }
+
+        .complexity-1 {
+            background-color: #d4edda;
+        }
+
+        .complexity-2 {
+            background-color: #fff3cd;
+        }
+
+        .complexity-3 {
+            background-color: #f8d7da;
+        }
+
+        .complexity-4 {
+            background-color: #d1ecf1;
+        }
+
         .selected {
             border: 3px solid #007bff;
             font-weight: bold;
         }
-        
+
         .score-summary {
             background: #e3f2fd;
             padding: 15px;
             border-radius: 5px;
             margin-top: 20px;
         }
+
         .score-row {
             display: flex;
             justify-content: space-between;
             margin: 5px 0;
         }
+
         .total-score {
             font-size: 18px;
             font-weight: bold;
@@ -109,6 +141,7 @@
             padding-top: 10px;
             margin-top: 10px;
         }
+
         .reset-btn {
             background: #dc3545;
             color: white;
@@ -118,15 +151,84 @@
             cursor: pointer;
             margin-top: 10px;
         }
+
         .reset-btn:hover {
             background: #c82333;
         }
+
+        .score-interpretation {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        .score-interpretation h3 {
+            margin-top: 0;
+            color: #28a745;
+        }
+
+        .interpretation-content {
+            font-size: 14px;
+        }
+
+        .score-range {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .complexity-levels {
+            margin: 15px 0;
+        }
+
+        .complexity-level {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 5px;
+            border-left: 4px solid;
+        }
+
+        .complexity-level.low {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .complexity-level.medium {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .complexity-level.high {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .usage-notes {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .usage-notes ul {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .usage-notes li {
+            margin: 5px 0;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Mobile Machinery ECU Project Complexity Scoring Matrix</h1>
-        
+
         <div class="legend">
             <h3>Complexity Scale</h3>
             <strong>0 - Not Applicable:</strong> Subsystem not required for this project<br>
@@ -188,7 +290,7 @@
                     <td class="complexity-cell complexity-3" data-score="3">3</td>
                     <td class="complexity-cell complexity-4" data-score="4">4</td>
                 </tr>
-                
+
                 <tr class="subsystem-header">
                     <td colspan="6">System Management</td>
                 </tr>
@@ -463,6 +565,45 @@
             </div>
             <button class="reset-btn" onclick="resetMatrix()">Reset All Selections</button>
         </div>
+
+        <div class="score-interpretation">
+            <h3>Scoring Interpretation Guide</h3>
+            <div class="interpretation-content">
+                <div class="score-range">
+                    <strong>Total Score Range:</strong> 0-124 (31 subsystems × 4 maximum score)
+                </div>
+
+                <div class="complexity-levels">
+                    <div class="complexity-level low">
+                        <strong>Low Complexity Projects (0-30 points):</strong><br>
+                        Primarily leveraging existing solutions with minimal custom development. Most subsystems are
+                        either not applicable or available via BIOS/3rd party solutions. Limited refactoring required.
+                    </div>
+
+                    <div class="complexity-level medium">
+                        <strong>Medium Complexity Projects (31-70 points):</strong><br>
+                        Mixed approach with combination of existing solutions, refactoring work, and selective new
+                        development. Balance of available components and custom development requirements.
+                    </div>
+
+                    <div class="complexity-level high">
+                        <strong>High Complexity Projects (71+ points):</strong><br>
+                        Significant new development required, either through external partnerships or extensive in-house
+                        development. Multiple subsystems requiring custom solutions and advanced functionality.
+                    </div>
+                </div>
+
+                <div class="usage-notes">
+                    <strong>Usage Notes:</strong>
+                    <ul>
+                        <li>Use this matrix during initial customer discovery to assess project scope</li>
+                        <li>Higher scores indicate longer development timelines and increased resource requirements</li>
+                        <li>Consider risk factors: external development dependencies vs. in-house capability</li>
+                        <li>Review subsystem interdependencies - some combinations may increase overall complexity</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -480,7 +621,7 @@
             for (let i = 0; i <= 4; i++) {
                 document.getElementById(`score-${i}`).textContent = `${scoreCounts[i]} subsystems`;
             }
-            
+
             document.getElementById('total-score').textContent = totalScore;
         }
 
@@ -493,20 +634,20 @@
         }
 
         document.querySelectorAll('.complexity-cell').forEach(cell => {
-            cell.addEventListener('click', function() {
+            cell.addEventListener('click', function () {
                 const row = this.closest('tr');
                 const subsystem = row.dataset.subsystem;
                 const score = parseInt(this.dataset.score);
 
                 // Remove previous selection for this subsystem
                 row.querySelectorAll('.complexity-cell').forEach(c => c.classList.remove('selected'));
-                
+
                 // Add selection to clicked cell
                 this.classList.add('selected');
-                
+
                 // Update score tracking
                 selectedScores[subsystem] = score;
-                
+
                 // Update summary
                 updateScores();
             });
@@ -516,4 +657,5 @@
         updateScores();
     </script>
 </body>
+
 </html>
